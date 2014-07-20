@@ -18,3 +18,6 @@ SOURCES += main.cpp\
 HEADERS  += qmakeself.h
 
 FORMS    += qmakeself.ui
+
+RESOURCES += \
+    res.qrc

@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pic/sets_save.png</file>
+        <file>pic/sets_reset.png</file>
+        <file>pic/save.png</file>
+        <file>pic/open.png</file>
+        <file>pic/new.png</file>
+        <file>pic/help.png</file>
+        <file>pic/main.png</file>
+        <file>pic/export.png</file>
+        <file>pic/add.png</file>
+    </qresource>
+</RCC>

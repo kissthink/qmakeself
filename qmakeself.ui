@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>920</width>
-    <height>445</height>
+    <height>509</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>920</width>
+    <height>509</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>920</width>
+    <height>509</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>QMakeSelf</string>
@@ -62,6 +74,9 @@
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::UpDownArrows</enum>
                </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
                <property name="maximum">
                 <number>9</number>
                </property>
@@ -85,6 +100,21 @@
               <string>Контрольные суммы</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <property name="spacing">
+               <number>2</number>
+              </property>
+              <property name="sizeConstraint">
+               <enum>QLayout::SetMaximumSize</enum>
+              </property>
+              <property name="leftMargin">
+               <number>9</number>
+              </property>
+              <property name="topMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>2</number>
+              </property>
               <item>
                <widget class="QCheckBox" name="cbCRC">
                 <property name="text">
@@ -120,7 +150,7 @@
            <item>
             <widget class="QLineEdit" name="leLabel">
              <property name="placeholderText">
-              <string>Название программы</string>
+              <string>Заголовок программы</string>
              </property>
             </widget>
            </item>
@@ -141,6 +171,10 @@
                <property name="text">
                 <string>...</string>
                </property>
+               <property name="icon">
+                <iconset resource="res.qrc">
+                 <normaloff>:/pic/add.png</normaloff>:/pic/add.png</iconset>
+               </property>
               </widget>
              </item>
             </layout>
@@ -148,7 +182,7 @@
            <item>
             <widget class="QCheckBox" name="cbCopyToTemporary">
              <property name="text">
-              <string>Сначала во временную папку</string>
+              <string>Скопировать установщик во временную папку</string>
              </property>
             </widget>
            </item>
@@ -166,7 +200,7 @@
          <item>
           <widget class="QCheckBox" name="cbFollowSymLinks">
            <property name="text">
-            <string>Следовать по ссылкам в архиве</string>
+            <string>Следовать по ссылкам в корне архива</string>
            </property>
           </widget>
          </item>
@@ -214,6 +248,10 @@
              <property name="text">
               <string>...</string>
              </property>
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/pic/add.png</normaloff>:/pic/add.png</iconset>
+             </property>
             </widget>
            </item>
           </layout>
@@ -231,6 +269,10 @@
             <widget class="QToolButton" name="tbSelectPathLicense">
              <property name="text">
               <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/pic/add.png</normaloff>:/pic/add.png</iconset>
              </property>
             </widget>
            </item>
@@ -250,6 +292,10 @@
              <property name="text">
               <string>...</string>
              </property>
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/pic/add.png</normaloff>:/pic/add.png</iconset>
+             </property>
             </widget>
            </item>
           </layout>
@@ -267,6 +313,10 @@
             <widget class="QToolButton" name="tbSelectPathHeader">
              <property name="text">
               <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="res.qrc">
+               <normaloff>:/pic/add.png</normaloff>:/pic/add.png</iconset>
              </property>
             </widget>
            </item>
@@ -300,6 +350,8 @@
   <widget class="QStatusBar" name="spStatusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

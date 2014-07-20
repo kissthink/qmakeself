@@ -3,16 +3,29 @@
 
 #include <QMainWindow>
 #include <QToolBar>
+#include <QToolButton>
+#include <QDebug>
+#include <QFileDialog>
+#include <QString>
+#include <QFileSystemModel>
+#include <QDropEvent>
+#include <QMimeData>
+#include <QLabel>
+#include <QProcess>
 
 namespace Ui {
 class QMakeSelf;
 }
+
 
 class QMakeSelf : public QMainWindow
 {
     Q_OBJECT
 
 public:
+    static const int PROC_ERROR = -2;
+    static const int PROC_CRASH = -1;
+    static const int PROC_OK = 0;
     explicit QMakeSelf(QWidget *parent = 0);
     ~QMakeSelf();
 
@@ -20,7 +33,29 @@ protected:
     void changeEvent(QEvent *e);
 
 private:
+    QString sourcePath;
     Ui::QMakeSelf *ui;
+
+    void buildGUI();
+    void buildToolBar();
+
+private slots:
+    void newArchive();
+    void openArchive();
+    void saveArchive();
+    void createArchive();
+    void saveSettings();
+    void loadDefaultSettings();
+    void configureTreeView();
+    void showHelp();
+    void detectAlgorithms();
+    void fillUnpackTypes();
+    void analyzeAlgorithmFeatures(QString);
+    void analyzeUnpackFeatures(QString);
+
+    // QWidget interface
+protected:
+    void dropEvent(QDropEvent *);
 };
 
 #endif // QMAKESELF_H
