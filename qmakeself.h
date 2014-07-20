@@ -12,6 +12,8 @@
 #include <QMimeData>
 #include <QLabel>
 #include <QProcess>
+#include <QFile>
+#include <QDataStream>
 
 namespace Ui {
 class QMakeSelf;
@@ -26,6 +28,7 @@ public:
     static const int PROC_ERROR = -2;
     static const int PROC_CRASH = -1;
     static const int PROC_OK = 0;
+    static const int magicID = 0x6969;
     explicit QMakeSelf(QWidget *parent = 0);
     ~QMakeSelf();
 
@@ -34,6 +37,17 @@ protected:
 
 private:
     QString sourcePath;
+    QString compressionType;
+    int compressionLevel;
+    QString tarExtra;
+    bool nocrc, nomd5, notemp;
+    QString label;
+    QString unpackType;
+    QString destination;
+    bool followLinks;
+    bool noProgress, nox11, nowait;
+    QString lsmFile, licenseFile, headerFile, initScript;
+
     Ui::QMakeSelf *ui;
 
     void buildGUI();
@@ -52,6 +66,10 @@ private slots:
     void fillUnpackTypes();
     void analyzeAlgorithmFeatures(QString);
     void analyzeUnpackFeatures(QString);
+    void getParams();
+    void setParams();
+    void adjustTreeView();
+
 
     // QWidget interface
 protected:
