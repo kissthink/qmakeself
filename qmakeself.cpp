@@ -98,7 +98,7 @@ void QMakeSelf::openArchive()
         if(fileID == magicID)
         {
             inStream >> sourcePath >>  compressionType >> compressionLevel >> tarExtra >> nocrc >> nomd5 >> notemp >>label;
-            inStream >> unpackType >> destination >> followLinks >> noProgress >> nox11 >> nowait >> lsmFile;
+            inStream >> unpackType >> destination >> followLinks >> noprogress >> nox11 >> nowait >> lsmFile;
             inStream >> licenseFile >> headerFile >> initScript;
             setParams();
         }
@@ -128,7 +128,7 @@ void QMakeSelf::saveArchive()
             QDataStream outStream(&out);
             outStream.setVersion(QDataStream::Qt_5_3);
             outStream << magicID << sourcePath <<  compressionType << compressionLevel << tarExtra << nocrc << nomd5 << notemp << label;
-            outStream << unpackType << destination << followLinks << noProgress << nox11 << nowait << lsmFile;
+            outStream << unpackType << destination << followLinks << noprogress << nox11 << nowait << lsmFile;
             outStream << licenseFile << headerFile << initScript;
             out.close();
         }
@@ -141,7 +141,44 @@ void QMakeSelf::saveArchive()
 
 void QMakeSelf::createArchive()
 {
+    getParams();
     qDebug()<< "createArchive()";
+    QProcess *proc = new QProcess(this);
+    QString program = "/usr/bin/which";
+    QString out;
+    QStringList args;
+    args << "makeself";
+    proc->start(program, args);
+    if(proc->waitForStarted());
+    if(proc->waitForReadyRead()) out = proc->readAllStandardOutput().trimmed();
+    if(proc->waitForFinished());
+    if(out.length() > 0)
+    {
+        args.clear();
+        program = out;
+        args << "--" + compressionType << "--complevel" << QString::number(compressionLevel);
+        if(!notemp) args << "--copy";
+        if(nocrc) args << "--nocrc";
+        if(nomd5) args << "--nomd5";
+        if(nox11) args << "--nox11";
+        if(noprogress) args << "--noprogress";
+        if(nowait) args << "--nowait";
+        if(followLinks) args << "--follow";
+        if(tarExtra.length()>0) args << "--tar-extra " << tarExtra;
+        if(lsmFile.length()>0) args << "--lsm" << lsmFile;
+        if(licenseFile.length() > 0) args << "--license" << licenseFile;
+
+        proc->start(program, args);
+        if(proc->waitForStarted());
+        if(proc->waitForReadyRead()) out = proc->readAll();
+        if(proc->waitForFinished());
+        qDebug() << args;
+    }
+    else
+    {
+        qDebug() << "makeself not installed";
+    }
+    delete proc;
 }
 
 void QMakeSelf::saveSettings()
@@ -183,7 +220,7 @@ void QMakeSelf::detectAlgorithms()
         QProcess *proc = new QProcess(this);
         proc->start(program, args);
         if(proc->waitForStarted());
-        if(proc->waitForReadyRead()) out = proc->readAllStandardOutput();
+        if(proc->waitForReadyRead()) out = proc->readAllStandardOutput().trimmed();
         if(proc->waitForFinished());
         if(out.length()>0) availableAlgorithms.append(algrorithm);
         delete proc;
@@ -224,9 +261,9 @@ void QMakeSelf::getParams()
     unpackType = ui->cbUnpackType->currentText();
     destination = ui->leDestination->text().trimmed();
     followLinks = ui->cbFollowSymLinks->isChecked();
-    noProgress = ui->cbUnpackProgress->isChecked();
+    noprogress = ui->cbUnpackProgress->isChecked();
     nox11 = ui->cbXtermAuto->isChecked();
-    nowait = !ui->cbXtermClose->isChecked();
+    nowait = ui->cbXtermClose->isChecked();
     lsmFile = ui->leDestinationLSM->text().trimmed();
     licenseFile = ui->leDestinationLicense->text().trimmed();
     headerFile = ui->leDestinationHeader->text().trimmed();
@@ -245,7 +282,7 @@ void QMakeSelf::setParams()
     ui->cbUnpackType->setCurrentText(unpackType);
     ui->leDestination->setText(destination);
     ui->cbFollowSymLinks->setChecked(followLinks);
-    ui->cbUnpackProgress->setChecked(noProgress);
+    ui->cbUnpackProgress->setChecked(noprogress);
     ui->cbXtermAuto->setChecked(nox11);
     ui->cbXtermClose->setChecked(!nowait);
     ui->leDestinationLSM->setText(lsmFile);

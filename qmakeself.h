@@ -45,7 +45,7 @@ private:
     QString unpackType;
     QString destination;
     bool followLinks;
-    bool noProgress, nox11, nowait;
+    bool noprogress, nox11, nowait;
     QString lsmFile, licenseFile, headerFile, initScript;
 
     Ui::QMakeSelf *ui;
